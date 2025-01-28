@@ -1,43 +1,48 @@
 CREATE DATABASE easycook;
- 
+
 CREATE TABLE users (
-	Id CHAR(36) NOT NULL PRIMARY KEY,
+    Id CHAR(36) NOT NULL PRIMARY KEY,
     Name VARCHAR(25),
     Email VARCHAR(50) UNIQUE,
     Password VARCHAR(25),
-    Permissions Boolean DEFAULT 1
+    Permissions BOOLEAN DEFAULT 1
 );
 
+-- Tabela recipes
 CREATE TABLE recipes (
-	Id INT auto_increment NOT NULL PRIMARY KEY,
-    Name varchar(250),
-	Category varchar(250),
-	Area varchar(250),
-	Image longtext,
-	Instructions longtext,
-	Time int,
-	Cost double,
-	Difficulty varchar(35),
-    UserId INT,
-	FOREIGN KEY (UserId)  REFERENCES users(Id)
+    Id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    Name VARCHAR(250),
+    Category VARCHAR(250),
+    Area VARCHAR(250),
+    Image LONGTEXT,
+    Instructions LONGTEXT,
+    Time INT,
+    Cost DOUBLE,
+    Difficulty VARCHAR(35),
+    UserId CHAR(36),
+    FOREIGN KEY (UserId) REFERENCES users(Id)
 );
 
+-- Tabela ingredients
 CREATE TABLE ingredients (
-	Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     Name VARCHAR(150),
     RecipeId INT,
-    FOREIGN KEY (ListId) REFERENCES lists(id)
+    foreign key (RecipeId) references recipes(Id)
 );
 
+-- Tabela lists
 CREATE TABLE lists (
-	Id CHAR(36) NOT NULL PRIMARY KEY,
+    Id CHAR(36) NOT NULL PRIMARY KEY,
     UserId CHAR(36),
-    FOREIGN KEY (UserId) REFERENCES users(id)
+    FOREIGN KEY (UserId) REFERENCES users(Id)
 );
 
+-- Tabela recipes_lists
 CREATE TABLE recipes_lists (
-	Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     RecipeId INT,
     ListId CHAR(36),
-    FOREIGN KEY (ListId) REFERENCES lists(id)
+    FOREIGN KEY (RecipeId) REFERENCES recipes(Id),
+    FOREIGN KEY (ListId) REFERENCES lists(Id)
 );
